@@ -3,6 +3,7 @@ pub mod intern;
 use std::any::Any;
 use std::hash::{Hash, Hasher};
 
+#[doc(hidden)]
 pub use paste as __paste;
 
 /// An object safe version of [`Eq`].
