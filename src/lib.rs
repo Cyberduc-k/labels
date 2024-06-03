@@ -50,9 +50,9 @@ impl<T: DynEq + Hash> DynHash for T {
 
 #[macro_export]
 macro_rules! define_label {
-    ($(#[$attr:meta])* $label_name:ident) => {
+    ($(#[$attr:meta])* $vis:vis $label_name:ident $(;)?) => {
         $(#[$attr])*
-        pub trait $label_name: ::std::fmt::Debug + Send + Sync + 'static {
+        $vis trait $label_name: ::std::fmt::Debug + Send + Sync + 'static {
             /// Clones this `
             #[doc = stringify!($label_name)]
             /// `.
@@ -132,5 +132,3 @@ macro_rules! define_label {
         }
     };
 }
-
-define_label!(Test);

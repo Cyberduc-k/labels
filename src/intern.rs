@@ -1,3 +1,4 @@
+use std::borrow::Borrow;
 use std::collections::HashSet;
 use std::fmt::Debug;
 use std::hash::{Hash, Hasher};
@@ -76,6 +77,18 @@ impl<T: ?Sized> Deref for Interned<T> {
     type Target = T;
 
     fn deref(&self) -> &Self::Target {
+        self.0
+    }
+}
+
+impl<T: ?Sized> AsRef<T> for Interned<T> {
+    fn as_ref(&self) -> &T {
+        self.0
+    }
+}
+
+impl<T: ?Sized> Borrow<T> for Interned<T> {
+    fn borrow(&self) -> &T {
         self.0
     }
 }
