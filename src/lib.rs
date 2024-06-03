@@ -51,14 +51,14 @@ impl<T: DynEq + Hash> DynHash for T {
 #[macro_export]
 macro_rules! define_label {
     ($(#[$attr:meta])* $vis:vis $label_name:ident $(;)? $(
-        extra_methods:{ $($(#[$method_attr:meta])* fn $method:ident(&self) -> $ret:ty $($body:block)?)* }
-        extra_methods_impl:{ $(fn $impl_method:ident(&self) -> $impl_ret:ty $impl_body:block)* })?
+        extra_methods:{ $($(#[$method_attr:meta])* fn $method:ident(&$self:ident) -> $ret:ty $($body:block)?)* }
+        extra_methods_impl:{ $(fn $impl_method:ident(&$impl_self:ident) -> $impl_ret:ty $impl_body:block)* })?
     ) => {
         $(#[$attr])*
         $vis trait $label_name: ::std::fmt::Debug + Send + Sync + 'static {
             $($(
                 $(#[$method_attr])*
-                fn $method(&self) -> $ret $($body)?
+                fn $method(&$self) -> $ret $($body)?
             )*)?
 
             /// Clones this `
@@ -85,7 +85,7 @@ macro_rules! define_label {
 
         impl $label_name for $crate::intern::Interned<dyn $label_name> {
             $($(
-                fn $impl_method(&self) -> $impl_ret $impl_body
+                fn $impl_method(&$impl_self) -> $impl_ret $impl_body
             )*)?
 
             fn dyn_clone(&self) -> ::std::boxed::Box<dyn $label_name> {
